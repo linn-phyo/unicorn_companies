@@ -12,7 +12,31 @@ export class UnicornCompaniesService {
     async getAllByFilter(query: any): Promise<UnicornCompanies[]> {
       return await this.prisma.unicornCompanies.findMany({
         where: query,
+        take: 10
       });
+    }
+
+    async getByPagination(query: any): Promise<any> {
+      const { filterObj, searchKey, searchVal, pageNo, take, sortKey, sortVal } =
+        Helpers.queryOption(query, { searchKey: 'company', sortKey: 'date_joined' });
+  
+      const result = await this.prisma.unicornCompanies.findMany({
+        where: { [searchKey]: { contains: searchVal }, ...filterObj },
+        orderBy: { [sortKey]: sortVal },
+        skip: pageNo * take,
+        take: take,
+      });
+  
+      const total = await this.prisma.unicornCompanies.count();
+  
+      return {
+        data: result,
+        pageInfo: {
+          page: pageNo,
+          pageSize: take,
+          totalRowCount: total,
+        },
+      };
     }
 
     async create(data: CreateUnicornCompanyDto): Promise<UnicornCompanies> {

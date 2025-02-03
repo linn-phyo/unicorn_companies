@@ -2,12 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class PaginationQuery {
   @ApiProperty({ example: 0 })
-  [`page[skip]`]: number;
+  [`page[pageno]`]: number;
 
   @ApiProperty({ example: 10 })
   [`page[take]`]: number;
 
-  @ApiProperty({ example: 'mg mg' })
+  @ApiProperty({ example: 'Alice' })
   [`search[name]`]: string;
 
   @ApiProperty({ example: 'desc' })

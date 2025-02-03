@@ -18,6 +18,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ResponseMessage } from 'src/common/handlers/response-message';
 
+import { PaginationQuery } from 'src/common/interfaces/request-query';
+
 @Controller('unicorncompanies')
 export class UnicornCompaniesController {
     constructor(private readonly unicorncompaniesService: UnicornCompaniesService) {}
@@ -27,7 +29,16 @@ export class UnicornCompaniesController {
     @ApiBearerAuth('JWT-auth')
     @ResponseMessage('success')
     async GetAllByFilter(@Query() query: any) {
+        console.log("Load: ", 'company list')
         return this.unicorncompaniesService.getAllByFilter(query);
+    }
+
+    @Get('/pages')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('JWT-auth')
+    @ResponseMessage('success')
+    async GetByPagination(@Query() query: PaginationQuery) {
+        return this.unicorncompaniesService.getByPagination(query);
     }
 
     @Post()

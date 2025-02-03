@@ -8,7 +8,7 @@ export class Helpers {
   public static queryOption(query: any, options = {}) {
     let {
       filterObj,
-      skipPage,
+      pageNumber,
       takeRows,
       searchKey,
       searchVal,
@@ -18,7 +18,7 @@ export class Helpers {
 
     filterObj = query?.filter || filterObj;
 
-    skipPage = query?.page?.skip || skipPage;
+    pageNumber = query?.page?.pageno || pageNumber;
     takeRows = query?.page?.take || takeRows;
 
     searchKey = query?.search?.key || searchKey;
@@ -32,7 +32,7 @@ export class Helpers {
     }
 
     return {
-      skip: +skipPage,
+      pageNo: +pageNumber,
       take: +takeRows,
       filterObj: filterObj,
       searchKey: searchKey,

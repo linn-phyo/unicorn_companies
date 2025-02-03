@@ -18,18 +18,18 @@ export class AuthGuard implements CanActivate {
 
     // Development purpose!
 
-    // if (!token) {
-    //   throw new UnauthorizedException('Token not found.');
-    // }
+    if (!token) {
+      throw new UnauthorizedException('Token not found.');
+    }
 
-    // try {
-    //   const payload = await this.jwtService.verifyAsync(token, {
-    //     secret: jwtConstants.secret,
-    //   });
-    //   request['user'] = payload;
-    // } catch {
-    //   throw new UnauthorizedException('Token is not valid.');
-    // }
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+      request['user'] = payload;
+    } catch {
+      throw new UnauthorizedException('Token is not valid.');
+    }
 
     return true;
   }
